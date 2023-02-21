@@ -16,7 +16,7 @@ insert into students values ('3000200243', 'Peter', 'Yataco', 'SYataco@iu.edu');
 insert into students values ('3000255661', 'Camilia', 'Tipiani', 'ATipiani@iu.edu');
 insert into students values ('3000237465', 'Sandy', 'Medina', 'CMedina@iu.edu');
 insert into students values ('3000256709', 'Randy', 'Tran', 'STran@iu.edu');
-insert into students values ('3000277090', 'Sheyla', 'Behforooz', 'ABehfo@iu.edu');
+insert into students values ('3000277090', 'Sheyla', 'Sashimi', 'ABehfo@iu.edu');
 INSERT INTO students VALUES ("3001274639", "Ron", "Cookie", "RonCookieDoughMaster@iu.edu");
 INSERT INTO students VALUES ("3002584560", "Boulder", "Snakey", "SnakeOnABoulder@iu.edu");
 INSERT INTO students VALUES ("3003698741", "Jack", "Feral", "JackIsFeral@iu.edu");
