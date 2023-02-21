@@ -20,3 +20,4 @@ insert into students values ('3000277090', 'Sheyla', 'Sashimi', 'ABehfo@iu.edu')
 INSERT INTO students VALUES ("3001274639", "Ron", "Cookie", "RonCookieDoughMaster@iu.edu");
 INSERT INTO students VALUES ("3002584560", "Boulder", "Snakey", "SnakeOnABoulder@iu.edu");
 INSERT INTO students VALUES ("3003698741", "Jack", "Feral", "JackIsFeral@iu.edu");
+INSERT INTO students VALUES ("3003698741", "Sam", "Entemen", "SammyEnt@iu.edu");
