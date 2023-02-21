@@ -1,3 +1,24 @@
+<<<<<<< HEAD
+insert into students values ('3000232323', 'Carl', 'Gallagher', 'CaGallagher@iu.edu');
+insert into students values ('3000232323', 'Carl', 'Goldberg', 'JGoldberg@iu.edu');
+insert into students values ('3000232323', 'Carl', 'Huesca', 'DHuesca@iu.edu');
+insert into students values ('3000232323', 'Carl', 'Flores', 'LaFlores@iu.edu');
+insert into students values ('3000232323', 'Carl', 'Torres', 'HTorres@iu.edu');
+insert into students values ('3000232323', 'Carl', 'Ventura', 'EVentura@iu.edu');
+insert into students values ('3000232323', 'Carl', 'Castellanos', 'KCastellanos@iu.edu');
+insert into students values ('3000232323', 'Carl', 'Montor', 'RizzlyBearMontor@iu.edu');
+insert into students values ('3000232323', 'Carl', 'Tena', 'CTena@iu.edu');
+insert into students values ('3000232323', 'Carl', 'Hernandez', 'THernandez@iu.edu');
+insert into students values ('3000232323', 'Carl', 'Olvera', 'LasOlvera@iu.edu');
+insert into students values ('3000232323', 'Carl', 'Gomez', 'AGomez@iu.edu');
+insert into students values ('3000232323', 'Carl', 'Garcia', 'JGarcia@iu.edu');
+insert into students values ('3000232323', 'Carl', 'Rodriguez', 'ARodriguez@iu.edu');
+insert into students values ('3000232323', 'Carl', 'Yataco', 'SYataco@iu.edu');
+insert into students values ('3000232323', 'Carl', 'Tipiani', 'ATipiani@iu.edu');
+insert into students values ('3000232323', 'Carl', 'Medina', 'CMedina@iu.edu');
+insert into students values ('3000232323', 'Carl', 'Tran', 'STran@iu.edu');
+insert into students values ('3000232323', 'Carl', 'Behforooz', 'ABehforo@iu.edu');
+=======
 insert into students values ('3000232323', 'Carl', 'Johnson', 'sadfrgvewfwefre@iu.edu');
 insert into students values ('3000236539', 'Sonny', 'Johnson', 'sadfrgvewfwefre@iu.edu');
 insert into students values ('3000229534', 'Jacob', 'Johnson', 'sadfrgvewfwefre@iu.edu');
@@ -17,6 +38,7 @@ insert into students values ('3000255661', 'Camilia', 'Johnson', 'sadfrgvewfwefr
 insert into students values ('3000237465', 'Sandy', 'Johnson', 'sadfrgvewfwefre@iu.edu');
 insert into students values ('3000256709', 'Randy', 'Johnson', 'sadfrgvewfwefre@iu.edu');
 insert into students values ('3000277090', 'Sheyla', 'Johnson', 'sadfrgvewfwefre@iu.edu');
+>>>>>>> 672fbb2f83feff13d7be13f11f1d9cad334de54c
 
 
 
