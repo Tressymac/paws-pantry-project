@@ -36,4 +36,12 @@ app.get('/students', async function (req, res, next) {
     });
 });
 
+app.get('/admin', async function (req, res, next) {
+    const sql_query = `SELECT firstName FROM admin;`
+    connection.query(sql_query, (err, results) => {
+        if(err) throw err; 
+        res.json(results);
+    });
+});
+
 module.exports = router;
