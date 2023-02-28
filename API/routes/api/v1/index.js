@@ -11,9 +11,9 @@ var router = express.Router();
 
 const connection = mysql2.createConnection({
     host: "localhost",
-    database: "patientData", 
+    database: "pawspantry", 
     user: "root", 
-    password: "Nihactive"
+    password: ""
 })
 
 const app = express();
