@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
-import mysql2 from 'mysql2';
+// import mysql2 from 'mysql2';
+var mysql2 = require('mysql2');
 // import express from 'express';
 var router = express.Router();
 
@@ -18,7 +19,7 @@ const connection = mysql2.createConnection({
 
 const app = express();
 
-const PORT = 3306; 
+const PORT = 8000; 
 app.listen(PORT, () => {
     console.log(`Server : http://localhost:${PORT}`)
     connection.connect((err) => {
