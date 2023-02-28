@@ -14,5 +14,11 @@
     "http-errors": "~1.6.3",
     "morgan": "~1.9.1",
     "mysql2": "^3.1.2"
-  }
+  },
+  "main": "app.js",
+  "devDependencies": {},
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
 }
