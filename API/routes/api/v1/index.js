@@ -3,13 +3,6 @@ const router = express.Router();
 const mysql2 = require('mysql2');
 const env = process.env.NODE_ENV;
 
-// let config;
-// if (env === 'production') {
-//     config = require('../knexfile.js')[env];
-// } else {
-//     config = require('../local-knexfile.js')[env];
-// }
-
 // const connection = mysql2.createConnection({
 //     host: "localhost",
 //     database: "pawspantry", 
@@ -18,11 +11,11 @@ const env = process.env.NODE_ENV;
 // })
 
 const connection = mysql2.createConnection({
-    host: env.hostName,
-    database: env.databaseName, 
-    user: env.databaseUser, 
-    password: env.databasePassword
-})
+    host: process.env.hostName,
+    database: process.env.databaseName, 
+    user: process.env.databaseUser, 
+    password: process.env.databasePassword
+});
 
 const app = express();
 
