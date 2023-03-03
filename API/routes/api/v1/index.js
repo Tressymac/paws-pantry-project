@@ -3,8 +3,6 @@ const router = express.Router();
 const mysql2 = require('mysql2');
 const env = process.env.NODE_ENV;
 
-// process.env.
-
 // let config;
 // if (env === 'production') {
 //     config = require('../knexfile.js')[env];
