@@ -1,20 +1,29 @@
-var express = require('express');
-var router = express.Router();
-// import mysql2 from 'mysql2';
-var mysql2 = require('mysql2');
-// import express from 'express';
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
+const mysql2 = require('mysql2');
+const env = process.env.NODE_ENV;
 
-// /* GET home page. */
-// router.get('/', function(req, res, next) {
-//   res.render('index', { title: 'Express' });
-// });
+// process.env.
+
+// let config;
+// if (env === 'production') {
+//     config = require('../knexfile.js')[env];
+// } else {
+//     config = require('../local-knexfile.js')[env];
+// }
+
+// const connection = mysql2.createConnection({
+//     host: "localhost",
+//     database: "pawspantry", 
+//     user: "root", 
+//     password: ""
+// })
 
 const connection = mysql2.createConnection({
-    host: "localhost",
-    database: "pawspantry", 
-    user: "root", 
-    password: ""
+    host: env.hostName,
+    database: env.databaseName, 
+    user: env.databaseUser, 
+    password: env.databasePassword
 })
 
 const app = express();

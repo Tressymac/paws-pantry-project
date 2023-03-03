@@ -8,6 +8,7 @@
   "dependencies": {
     "app-module-path": "^2.2.0",
     "cookie-parser": "~1.4.4",
+    "cors": "^2.8.5",
     "debug": "~2.6.9",
     "ejs": "~2.6.1",
     "express": "~4.16.1",
@@ -16,7 +17,6 @@
     "mysql2": "^3.1.2"
   },
   "main": "app.js",
-  "devDependencies": {},
   "keywords": [],
   "author": "",
   "license": "ISC",
