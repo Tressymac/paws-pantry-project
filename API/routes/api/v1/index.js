@@ -28,11 +28,62 @@ app.listen(PORT, () => {
     })
 });
 
+// Getting all the student data in the database 
 app.get('/students', async function (req, res, next) {
-    const sql_query = `SELECT * FROM students;`
+    const sql_query = `SELECT * FROM students;`;
     connection.query(sql_query, (err, results) => {
         if(err) throw err; 
+        var statement = `All student information returned`;
+        console.log(statement);
         res.json(results);
+    });
+});
+
+// Inserting new student info into database 
+app.post('/students/newStudents', function(req, res){
+    var studentID=req.body.studentID;
+    var firstName=req.body.firstName;
+    var lastName=req.body.lastName;
+    var email=req.body.email;
+
+    var values = [
+        [studentID, firstName, lastName, email]
+    ];
+
+    const sql_query = "INSERT INTO `students` (studentID, firstName, lastName, email) VALUES (?, ?, ?, ?);";
+
+    connection.query(sql_query, [values].toString(), function(err, result){
+        if(err) throw err;
+        var statement = `One record inserted`;
+        console.log(statement);
+    });
+    res.send(values);
+});
+
+// Finding student by student ID 
+app.delete('/students/findStudent/:studentID', function(req, res) {
+    var studentID=req.body.studentID;
+
+    const sql_query = `SELECT * FROM students WHERE studentID = '${studentID}';`;
+
+    connection.query(sql_query, [values].toString(), function(err, result){
+        if(err) throw err;
+        var statement = `One student record returned`;
+        console.log(statement);
+        res.json(result);
+    });
+});
+
+// Deleting student schedule by student ID
+app.delete('/students/delete/:studentID', function(req, res) {
+    var studentID=req.body.studentID;
+
+    const sql_query = `DELETE FROM students WHERE studentID = '${studentID}';`;
+
+    connection.query(sql_query, [values].toString(), function(err, result){
+        if(err) throw err;
+        var statement = `Student "${studentID}" records has been removed`;
+        console.log(statement);
     });
 });
 
