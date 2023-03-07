@@ -1,4 +1,5 @@
 require('dotenv').config();
+require('app-module-path').addPath(__dirname);
 
 const createError = require('http-errors');
 const express = require('express');
@@ -7,7 +8,12 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require('cors');
 const app = express();
-
+const swaggerUI = require('swagger-ui-express');
+const swaggerFile = require('services/swagger_output.json');
+const swaggerUiOptions = {
+  customSiteTitle: 'New schedule API Docs',
+  customCss: '.swagger-ui .topbar{display: none}'
+};
 
 // Routes
 const indexRouter = require('./routes/api/v1/index');
@@ -25,6 +31,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
 
 app.use('/api/v1', indexRouter);
+app.use('/api/v1/docs', swaggerUI.serve, swaggerUI.setup(swaggerFile, swaggerUiOptions));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
