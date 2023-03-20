@@ -109,7 +109,7 @@ app.delete('/api/v1/students/delete/studentByID', function(req, res) {
     });
 });
 
-// Updating student name by student ID 
+// Updating first student name by student ID 
 app.post('/api/v1/students/update/:studentByID', function(req, res) {
     var studentID=req.body.studentID;
     var newFirstName = req.body.newFirstName;
@@ -120,10 +120,24 @@ app.post('/api/v1/students/update/:studentByID', function(req, res) {
     connection.query(sql_query, function(err, result){
         if (err) throw err;
         var statement = `Student "${studentID}" records has been updated`;
-        console.log(result.affectedRows + statement);
+        console.log(result.affectedRows + ": " + statement);
     });
 });
 
+// Updating last student name by student ID 
+app.post('/api/v1/students/update/:studentByID', function(req, res) {
+    var studentID=req.body.studentID;
+    var newLastName = req.body.newFirstName;
+
+    const sql_query = `UPDATE students SET lastName = '${newLastName}' WHERE studentID = '${studentID}';`;
+    console.log(sql_query);
+
+    connection.query(sql_query, function(err, result){
+        if (err) throw err;
+        var statement = `Student "${studentID}" records has been updated`;
+        console.log(result.affectedRows + ": " + statement);
+    });
+});
 
 
 module.exports = router;
