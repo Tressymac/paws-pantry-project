@@ -98,6 +98,20 @@ app.get('/api/v1/students/findStudent/:studentID', function(req, res) {
     });
 });
 
+// Finding timeslots by timeslot ID 
+app.get('/api/v1/timeslots/findTimeslots/:timeSlotID', function(req, res) {
+    var timeSlotID = req.params.timeSlotID;
+
+    const sql_query = `SELECT * FROM timeSlots WHERE timeSlotID = '${timeSlotID}';`;
+
+    connection.query(sql_query, function(err, result){
+        if(err) throw err;
+        var statement = `Time slot record has been returned`;
+        console.log(statement);
+        res.json(result);
+    });
+});
+
 // Deleting student schedule by student ID
 app.delete('/api/v1/students/delete/studentByID', function(req, res) {
     var studentID=req.body.studentID;
