@@ -151,6 +151,30 @@ app.post('/api/v1/students/newStudents', function(req, res){
     res.send(values);
 });
 
+// Inserting new admin info into database 
+app.post('/api/v1/admin/newAdmin', function(req, res){    
+    var adminID = req.body.adminID;
+    var firstName = req.body.firstName;
+    var lastName = req.body.lastName;
+    var email = req.body.email;
+    var password = req.body.password;
+
+    var values = [
+        [adminID, firstName, lastName, email, password]
+    ];
+
+    console.log("This is the returned value: " + values);
+
+    const sql_query = `INSERT INTO admin (adminID, firstName, lastName, email, password) VALUES ('${adminID}', '${firstName}', '${lastName}', '${email}', '${password});`;
+
+    connection.query(sql_query, function(err, result){
+        if(err) throw err;
+        var statement = `One record inserted`;
+        console.log(statement);
+    });
+    res.send(values);
+});
+
 // Finding student by student ID 
 app.get('/api/v1/students/findStudent/:studentID', function(req, res) {
     var studentID=req.params.studentID;
@@ -166,10 +190,10 @@ app.get('/api/v1/students/findStudent/:studentID', function(req, res) {
 });
 
 // Finding admin by admin ID 
-app.get('/api/v1/admins/findAdmin/:adminID', function(req, res) {
+app.get('/api/v1/admin/findAdmin/:adminID', function(req, res) {
     var adminID=req.params.adminID;
 
-    const sql_query = `SELECT * FROM admins WHERE adminID = '${adminID}';`;
+    const sql_query = `SELECT * FROM admin WHERE adminID = '${adminID}';`;
 
     connection.query(sql_query, function(err, result){
         if(err) throw err;
@@ -193,7 +217,7 @@ app.get('/api/v1/timeslots/findTimeslots/:timeSlotID', function(req, res) {
     });
 });
 
-// Deleting student schedule by student ID
+// Deleting student by student ID
 app.delete('/api/v1/students/delete/studentByID', function(req, res) {
     var studentID=req.body.studentID;
 
@@ -208,8 +232,23 @@ app.delete('/api/v1/students/delete/studentByID', function(req, res) {
     });
 });
 
+// Deleting admin by admin ID
+app.delete('/api/v1/admin/delete/adminByID', function(req, res) {
+    var adminID=req.body.adminID;
+
+    const sql_query = `DELETE FROM admin WHERE adminID = '${adminID}';`;
+    console.log(sql_query);
+
+    connection.query(sql_query, function(err, result){
+        if(err) throw err;
+        var statement = `Admin "${adminID}" records has been removed`;
+        console.log(statement);
+        res.json(statement);
+    });
+});
+
 // Updating first student name by student ID 
-app.post('/api/v1/students/update/:studentByID', function(req, res) {
+app.post('/api/v1/students/update/firstName/:studentByID', function(req, res) {
     var studentID=req.body.studentID;
     var newFirstName = req.body.newFirstName;
 
@@ -223,8 +262,23 @@ app.post('/api/v1/students/update/:studentByID', function(req, res) {
     });
 });
 
+// Updating first admin name by admin ID 
+app.post('/api/v1/admin/update/firstName/:adminByID', function(req, res) {
+    var adminID=req.body.adminID;
+    var newFirstName = req.body.newFirstName;
+
+    const sql_query = `UPDATE admin SET firstName = '${newFirstName}' WHERE adminID = '${adminID}';`;
+    console.log(sql_query);
+
+    connection.query(sql_query, function(err, result){
+        if (err) throw err;
+        var statement = `Admin "${adminID}" records has been updated`;
+        console.log(result.affectedRows + ": " + statement);
+    });
+});
+
 // Updating last student name by student ID 
-app.post('/api/v1/students/update/:studentByID', function(req, res) {
+app.post('/api/v1/students/update/lastName/:studentByID', function(req, res) {
     var studentID=req.body.studentID;
     var newLastName = req.body.newFirstName;
 
@@ -238,5 +292,34 @@ app.post('/api/v1/students/update/:studentByID', function(req, res) {
     });
 });
 
+// Updating last admin name by admin ID 
+app.post('/api/v1/admin/update/lastName/:adminByID', function(req, res) {
+    var adminID=req.body.adminID;
+    var newLastName = req.body.newFirstName;
+
+    const sql_query = `UPDATE admin SET lastName = '${newLastName}' WHERE adminID = '${adminID}';`;
+    console.log(sql_query);
+
+    connection.query(sql_query, function(err, result){
+        if (err) throw err;
+        var statement = `Admin "${adminID}" records has been updated`;
+        console.log(result.affectedRows + ": " + statement);
+    });
+});
+
+// Updating password of admin by admin ID 
+app.post('/api/v1/admin/update/password/:adminByID', function(req, res) {
+    var adminID=req.body.adminID;
+    var newPassword = req.body.newPassword;
+
+    const sql_query = `UPDATE admin SET password = '${newPassword}' WHERE adminID = '${adminID}';`;
+    console.log(sql_query);
+
+    connection.query(sql_query, function(err, result){
+        if (err) throw err;
+        var statement = `Admin "${adminID}" records has been updated`;
+        console.log(result.affectedRows + ": " + statement);
+    });
+});
 
 module.exports = router;
