@@ -165,6 +165,20 @@ app.get('/api/v1/students/findStudent/:studentID', function(req, res) {
     });
 });
 
+// Finding admin by admin ID 
+app.get('/api/v1/admins/findAdmin/:adminID', function(req, res) {
+    var studentID=req.params.studentID;
+
+    const sql_query = `SELECT * FROM admins WHERE adminID = '${adminID}';`;
+
+    connection.query(sql_query, function(err, result){
+        if(err) throw err;
+        var statement = `One admin record returned`;
+        console.log(statement);
+        res.json(result);
+    });
+});
+
 // Finding timeslots by timeslot ID 
 app.get('/api/v1/timeslots/findTimeslots/:timeSlotID', function(req, res) {
     var timeSlotID = req.params.timeSlotID;
