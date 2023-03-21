@@ -32,6 +32,7 @@ app.listen(PORT, () => {
 
 // Root route
 app.get('/', (req, res) => {
+    res.header("Access-Control-Allow-Origin", "*");
     res.send('Root API route');
 });
 
@@ -42,6 +43,7 @@ app.get('/api/v1/students', async function (req, res, next) {
         if(err) throw err; 
         var statement = `All student information returned`;
         console.log(statement);
+        res.header("Access-Control-Allow-Origin", "*");
         res.json(results);
     });
 });
@@ -53,6 +55,7 @@ app.get('/api/v1/admin', async function (req, res, next) {
         if(err) throw err; 
         var statement = `All admin information returned`;
         console.log(statement);
+        res.header("Access-Control-Allow-Origin", "*");
         res.json(results);
     });
 });
