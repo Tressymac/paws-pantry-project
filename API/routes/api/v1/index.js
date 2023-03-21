@@ -7,13 +7,6 @@ var bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
-// const connection = mysql2.createConnection({
-//     host: "localhost",
-//     database: "pawspantry", 
-//     user: "root", 
-//     password: "jessyMac123"
-// })
-
 const connection = mysql2.createConnection({
     host: 'localhost',
     database: process.env.databaseName, 
