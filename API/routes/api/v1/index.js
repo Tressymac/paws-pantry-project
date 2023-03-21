@@ -8,16 +8,22 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
 const connection = mysql2.createConnection({
-    host: 'localhost',
-    database: process.env.databaseName, 
-    user: process.env.databaseUser, 
-    password: process.env.databasePassword
-});
+    host: "localhost",
+    database: "pawspantry", 
+    user: "root", 
+    password: "jessyMac123"
+})
+
+// const connection = mysql2.createConnection({
+//     host: process.env.hostName,
+//     database: process.env.databaseName, 
+//     user: process.env.databaseUser, 
+//     password: process.env.databasePassword
+// });
 
 const PORT = 8000; 
 app.listen(PORT, () => {
-    console.log(`Server : http://localhost:${PORT}`);
-    console.log(process.env.hostName);
+    console.log(`Server : http://localhost:${PORT}`)
     connection.connect((err) => {
         if(err) throw err; 
         console.log("The database is connected");
@@ -77,6 +83,29 @@ app.post('/api/v1/students/newStudents', function(req, res){
     res.send(values);
 });
 
+// Inserting new time info into database 
+app.post('/api/v1/timeSlots/newTimeSlots', function(req, res){    
+    var timeSlotID = req.body.timeSlotID;
+    var day = req.body.day;
+    var time = req.body.time;
+    var filled = req.body.filled;
+
+    var values = [
+        [studentID, firstName, lastName, email]
+    ];
+
+    console.log("This is the returned value: " + values);
+
+    const sql_query = `INSERT INTO timeSlots (timeSlotID, day, time, filled) VALUES ('${timeSlotID}', '${day}', '${time}', '${filled}');`;
+
+    connection.query(sql_query, function(err, result){
+        if(err) throw err;
+        var statement = `The new time info has been updated.`;
+        console.log(statement);
+    });
+    res.send(values);
+});
+
 // Finding student by student ID 
 app.get('/api/v1/students/findStudent/:studentID', function(req, res) {
     var studentID=req.params.studentID;
@@ -120,6 +149,21 @@ app.delete('/api/v1/students/delete/studentByID', function(req, res) {
     });
 });
 
+// Deleting time slots by timeslot ID
+app.delete('/api/v1/timeslots/delete/timeSlotID', function(req, res) {
+    var timeSlotID=req.body.timeSlotID;
+
+    const sql_query = `DELETE FROM timeSlots WHERE timeSlotID = '${timeSlotID}';`;
+    console.log(sql_query);
+
+    connection.query(sql_query, function(err, result){
+        if(err) throw err;
+        var statement = `Time slot "${timeSlotID}" record has been removed`;
+        console.log(statement);
+        res.json(statement);
+    });
+});
+
 // Updating first student name by student ID 
 app.post('/api/v1/students/update/:studentByID', function(req, res) {
     var studentID=req.body.studentID;
@@ -146,6 +190,36 @@ app.post('/api/v1/students/update/:studentByID', function(req, res) {
     connection.query(sql_query, function(err, result){
         if (err) throw err;
         var statement = `Student "${studentID}" records has been updated`;
+        console.log(result.affectedRows + ": " + statement);
+    });
+});
+
+// Updating day for time slots by timeslotid
+app.post('/api/v1/timeslots/day/update/:timeSlotID', function(req, res) {
+    var timeSlotID=req.body.timeSlotID;
+    var newDay = req.body.newDay;
+
+    const sql_query = `UPDATE timeSlots SET day = '${newDay}' WHERE timeSlotID = '${timeSlotID}';`;
+    console.log(sql_query);
+
+    connection.query(sql_query, function(err, result){
+        if (err) throw err;
+        var statement = `Your new appointment day is on ${newDay}`;
+        console.log(result.affectedRows + ": " + statement);
+    });
+});
+
+// Update time for time slots timeSlotID
+app.post('/api/v1/students/time/update/:timeSlotID', function(req, res) {
+    var timeSlotID=req.body.timeSlotID;
+    var newTime = req.body.newTime;
+
+    const sql_query = `UPDATE timeSlots SET time = '${newTime}' WHERE timeSlotID = '${timeSlotID}';`;
+    console.log(sql_query);
+
+    connection.query(sql_query, function(err, result){
+        if (err) throw err;
+        var statement = `Your new appointment time is on ${newTime}`;
         console.log(result.affectedRows + ": " + statement);
     });
 });
