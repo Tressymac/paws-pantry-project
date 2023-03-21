@@ -1,0 +1,47 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "verson": "1.0.0",
+    "title": "Cocktail Bar",
+    "description": "Documention for Cocktail Bar",
+    "version": "1.0.0"
+  },
+  "host": "localhost:3000",
+  "basePath": "/api/v1",
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/students": {
+      "get": {
+        "description": "Getting all students in the Database",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    }
+  },
+  "paths": {
+    "/students": {
+      "get": {
+        "description": "Getting all students in the Database",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    }
+  }
+}
