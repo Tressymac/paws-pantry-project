@@ -167,7 +167,7 @@ app.get('/api/v1/students/findStudent/:studentID', function(req, res) {
 
 // Finding admin by admin ID 
 app.get('/api/v1/admins/findAdmin/:adminID', function(req, res) {
-    var studentID=req.params.studentID;
+    var adminID=req.params.adminID;
 
     const sql_query = `SELECT * FROM admins WHERE adminID = '${adminID}';`;
 
