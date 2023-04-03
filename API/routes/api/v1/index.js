@@ -8,22 +8,16 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
 const connection = mysql2.createConnection({
-    host: "localhost",
-    database: "pawspantry", 
-    user: "root", 
-    password: "jessyMac123"
-})
-
-// const connection = mysql2.createConnection({
-//     host: process.env.hostName,
-//     database: process.env.databaseName, 
-//     user: process.env.databaseUser, 
-//     password: process.env.databasePassword
-// });
+    host: 'localhost',
+    database: process.env.databaseName, 
+    user: process.env.databaseUser, 
+    password: process.env.databasePassword
+});
 
 const PORT = 8000; 
 app.listen(PORT, () => {
-    console.log(`Server : http://localhost:${PORT}`)
+    console.log(`Server : http://localhost:${PORT}`);
+    console.log(process.env.hostName);
     connection.connect((err) => {
         if(err) throw err; 
         console.log("The database is connected");
