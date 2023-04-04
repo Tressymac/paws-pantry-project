@@ -159,7 +159,7 @@ app.post('/api/v1/admin/newAdmin', function(req, res){
 
     console.log("This is the returned value: " + values);
 
-    const sql_query = `INSERT INTO admin (adminID, firstName, lastName, email, password) VALUES ('${adminID}', '${firstName}', '${lastName}', '${email}', '${password});`;
+    const sql_query = `INSERT INTO admin (adminID, firstName, lastName, email, password) VALUES ('${adminID}', '${firstName}', '${lastName}', '${email}', '${password}');`;
 
     connection.query(sql_query, function(err, result){
         if(err) throw err;
@@ -257,7 +257,7 @@ app.post('/api/v1/students/update/firstName/:studentByID', function(req, res) {
 });
 
 // Updating first admin name by admin ID 
-app.post('/api/v1/admin/update/firstName/:adminByID', function(req, res) {
+app.patch('/api/v1/admin/update/firstName/adminByID', function(req, res) {
     var adminID=req.body.adminID;
     var newFirstName = req.body.newFirstName;
 
