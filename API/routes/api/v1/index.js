@@ -91,12 +91,12 @@ app.post('/api/v1/timeSlots/newTimeSlots', function(req, res){
     var filled = req.body.filled;
 
     var values = [
-        [studentID, firstName, lastName, email]
+        [timeSlotID, day, time, filled]
     ];
 
     console.log("This is the returned value: " + values);
 
-    const sql_query = `INSERT INTO timeSlots (timeSlotID, day, time, filled) VALUES ('${timeSlotID}', '${day}', '${time}', '${filled}');`;
+    const sql_query = `INSERT INTO timeSlots (timeSlotID, day, time, filled) VALUES ('${timeSlotID}', '${day}', '${time}', ${filled});`;
 
     connection.query(sql_query, function(err, result){
         if(err) throw err;
@@ -210,7 +210,7 @@ app.post('/api/v1/timeslots/day/update/:timeSlotID', function(req, res) {
 });
 
 // Update time for time slots timeSlotID
-app.post('/api/v1/students/time/update/:timeSlotID', function(req, res) {
+app.patch('/api/v1/students/time/update/timeSlotID', function(req, res) {
     var timeSlotID=req.body.timeSlotID;
     var newTime = req.body.newTime;
 
