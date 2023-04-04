@@ -60,6 +60,74 @@ app.get('/api/v1/admin', async function (req, res, next) {
     });
 });
 
+// 
+app.get('/admin', async function (req, res, next) {
+    const sql_query = `SELECT * FROM admin;`
+    connection.query(sql_query, (err, results) => {
+        if(err) throw err; 
+        res.json(results);
+    });
+    
+});
+
+// Inserting new student info into database 
+app.post('/students/newStudents', function(req, res){
+    var studentID=req.body.studentID;
+    var firstName=req.body.firstName;
+    var lastName=req.body.lastName;
+    var email=req.body.email;
+
+    var values = [
+        [studentID, firstName, lastName, email]
+    ];
+
+    const sql_query = "INSERT INTO `students` (studentID, firstName, lastName, email) VALUES (?, ?, ?, ?);";
+
+    connection.query(sql_query, [values].toString(), function(err, result){
+        if(err) throw err;
+        var statement = `One record inserted`;
+        console.log(statement);
+    });
+    res.send(values);
+});
+
+// Finding student by student ID 
+app.delete('/students/findStudent/:studentID', function(req, res) {
+    var studentID=req.body.studentID;
+
+    const sql_query = `SELECT * FROM students WHERE studentID = '${studentID}';`;
+
+    connection.query(sql_query, [values].toString(), function(err, result){
+        if(err) throw err;
+        var statement = `One student record returned`;
+        console.log(statement);
+        res.json(result);
+    });
+});
+
+// Deleting student schedule by student ID
+app.delete('/students/delete/:studentID', function(req, res) {
+    var studentID=req.body.studentID;
+
+    const sql_query = `DELETE FROM students WHERE studentID = '${studentID}';`;
+
+    connection.query(sql_query, [values].toString(), function(err, result){
+        if(err) throw err;
+        var statement = `Student "${studentID}" records has been removed`;
+        console.log(statement);
+    });
+});
+
+app.get('/admin', async function (req, res, next) {
+    const sql_query = `SELECT * FROM admin;`
+    connection.query(sql_query, (err, results) => {
+        if(err) throw err; 
+        res.json(results);
+    });
+    
+
+});
+
 // Inserting new student info into database 
 app.post('/api/v1/students/newStudents', function(req, res){    
     var studentID = req.body.studentID;
@@ -120,6 +188,20 @@ app.get('/api/v1/students/findStudent/:studentID', function(req, res) {
     });
 });
 
+// Finding admin by admin ID 
+app.get('/api/v1/admin/findAdmin/:adminID', function(req, res) {
+    var adminID=req.params.adminID;
+
+    const sql_query = `SELECT * FROM admin WHERE adminID = '${adminID}';`;
+
+    connection.query(sql_query, function(err, result){
+        if(err) throw err;
+        var statement = `One admin record returned`;
+        console.log(statement);
+        res.json(result);
+    });
+});
+
 // Finding timeslots by timeslot ID 
 app.get('/api/v1/timeslots/findTimeslots/:timeSlotID', function(req, res) {
     var timeSlotID = req.params.timeSlotID;
@@ -134,7 +216,7 @@ app.get('/api/v1/timeslots/findTimeslots/:timeSlotID', function(req, res) {
     });
 });
 
-// Deleting student schedule by student ID
+// Deleting student by student ID
 app.delete('/api/v1/students/delete/studentByID', function(req, res) {
     var studentID=req.body.studentID;
 
@@ -165,7 +247,7 @@ app.delete('/api/v1/timeslots/delete/timeSlotID', function(req, res) {
 });
 
 // Updating first student name by student ID 
-app.post('/api/v1/students/update/:studentByID', function(req, res) {
+app.post('/api/v1/students/update/firstName/:studentByID', function(req, res) {
     var studentID=req.body.studentID;
     var newFirstName = req.body.newFirstName;
 
@@ -179,8 +261,23 @@ app.post('/api/v1/students/update/:studentByID', function(req, res) {
     });
 });
 
+// Updating first admin name by admin ID 
+app.post('/api/v1/admin/update/firstName/:adminByID', function(req, res) {
+    var adminID=req.body.adminID;
+    var newFirstName = req.body.newFirstName;
+
+    const sql_query = `UPDATE admin SET firstName = '${newFirstName}' WHERE adminID = '${adminID}';`;
+    console.log(sql_query);
+
+    connection.query(sql_query, function(err, result){
+        if (err) throw err;
+        var statement = `Admin "${adminID}" records has been updated`;
+        console.log(result.affectedRows + ": " + statement);
+    });
+});
+
 // Updating last student name by student ID 
-app.post('/api/v1/students/update/:studentByID', function(req, res) {
+app.post('/api/v1/students/update/lastName/:studentByID', function(req, res) {
     var studentID=req.body.studentID;
     var newLastName = req.body.newFirstName;
 
