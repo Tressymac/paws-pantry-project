@@ -42,6 +42,18 @@ app.get('/api/v1/students', async function (req, res, next) {
     });
 });
 
+// Getting all the clients data in the database 
+app.get('/api/v1/clients', async function (req, res, next) {
+    const sql_query = `SELECT * FROM clients;`;
+    connection.query(sql_query, (err, results) => {
+        if(err) throw err; 
+        var statement = `All student information returned`;
+        console.log(statement);
+        res.header("Access-Control-Allow-Origin", "*");
+        res.json(results);
+    });
+});
+
 // Getting all the admin data in the database 
 app.get('/api/v1/admin', async function (req, res, next) {
     const sql_query = `SELECT * FROM admin;`;
