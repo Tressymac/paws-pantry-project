@@ -54,6 +54,17 @@ app.get('/api/v1/timeSlots', async function (req, res, next) {
     });
 });
 
+// Getting all the appointments data in the database 
+app.get('/api/v1/appointments', async function (req, res, next) {
+    const sql_query = `SELECT * FROM appointments;`;
+    connection.query(sql_query, (err, results) => {
+        if(err) throw err; 
+        var statement = `All appointments information returned`;
+        console.log(statement);
+        res.header("Access-Control-Allow-Origin", "*");
+        res.json(results);
+    });
+});
 
 // Getting all the clients data in the database 
 app.get('/api/v1/clients', async function (req, res, next) {
@@ -102,15 +113,29 @@ app.post('/api/v1/students/newStudents', function(req, res){
     res.send(values);
 });
 
-// Finding student by student ID 
-app.get('/api/v1/students/findStudent/:studentID', function(req, res) {
-    var studentID=req.params.studentID;
+// Finding clients by clients ID 
+app.get('/api/v1/clients/findclients/:clientID', function(req, res) {
+    var clientID=req.body.clientID;
 
-    const sql_query = `SELECT * FROM students WHERE studentID = '${studentID}';`;
+    const sql_query = `SELECT * FROM clients WHERE clientID = '${clientID}';`;
 
     connection.query(sql_query, function(err, result){
         if(err) throw err;
-        var statement = `One student record returned`;
+        var statement = `One clients record returned`;
+        console.log(statement);
+        res.json(result);
+    });
+});
+
+// Finding appointments by student ID 
+app.get('/api/v1/appointments/findAppointments/:clientID', function(req, res) {
+    var clientID=req.body.clientID;
+
+    const sql_query = `SELECT * FROM appointments WHERE clientID = '${clientID}';`;
+
+    connection.query(sql_query, function(err, result){
+        if(err) throw err;
+        var statement = `Appointments record returned`;
         console.log(statement);
         res.json(result);
     });
