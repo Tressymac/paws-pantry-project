@@ -172,6 +172,30 @@ app.post('/api/v1/appointments/newAppointments',function(req,res){
     res.send(values);
 });
 
+// Deleting student schedule by student ID
+app.delete('/api/v1/appointments/delete/appointmentsByID', function(req, res) {
+    var appointmentsID=req.body.appointmentsID;
+
+    const sql_query = `DELETE FROM apointments WHERE apointmentID = '${appointmentsID}';`;
+    console.log(sql_query);
+
+    connection.query(sql_query, function(err, result){
+        if(err) throw err;
+        var statement = `Appointment "${appointmentsID}" records has been removed`;
+        console.log(statement);
+        res.json(statement);
+    });
+});
+/*
+CREATE TABLE appointments(
+	appointmentID INT PRIMARY KEY AUTO_INCREMENT,
+    clientID VARCHAR(10),
+    timeSlotID INT,
+    CONSTRAINT student_appointment_fk FOREIGN KEY (clientID) REFERENCES clients (clientID),
+    CONSTRAINT timeSlot_appointment_fk FOREIGN KEY (timeSlotID) REFERENCES timeSlots (timeSlotID)
+);
+*/
+
 module.exports = router;
 
 
