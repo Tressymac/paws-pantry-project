@@ -114,6 +114,29 @@ app.post('/api/v1/students/newStudents', function(req, res){
     res.send(values);
 });
 
+// Inserting new time info into database 
+app.post('/api/v1/timeSlots/newTimeSlots', function(req, res){    
+    var day = req.body.day;
+    var time = req.body.time;
+    var filled = false;
+
+    var values = [
+        [day, time, filled]
+    ];
+
+    console.log("This is the returned value: " + values);
+
+    const sql_query = `INSERT INTO timeSlots (day, time, filled) VALUES ('${day}', '${time}', ${filled});`;
+
+    connection.query(sql_query, function(err, result){
+        if(err) throw err;
+        var statement = `The new time info has been updated.`;
+        console.log(statement);
+    });
+    res.send(values);
+});
+
+
 // Finding clients by clients ID 
 app.get('/api/v1/clients/findclients/:clientID', function(req, res) {
     var clientID=req.params.clientID;
