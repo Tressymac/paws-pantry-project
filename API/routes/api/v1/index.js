@@ -151,4 +151,30 @@ app.post('/api/v1/students/update/:studentByID', function(req, res) {
 });
 
 
+ 
+app.post('/api/v1/appointments/newAppointments',function(req,res){
+    var appointmentID = req.body.appointmentID;
+    var studentID = req.studentID;
+    var timeSlotID = req.body.timeSlotID;
+    var student_appointment_fk = req.body.student_appointment_fk;
+    var timeSlot_appointment_fk = req.body.student_appointment_fk;
+
+    var values = [
+    [appointmentID , studentID,timeSlotID,student_appointment_fk,timeSlot_appointment_fk]
+    ];
+    console.log("This is the returned value: " +values);
+   
+    const sql_query = `INSERT INTO appointments (appointmentID, studentID, timeSlotID, student_appointment_fk,timeSlot_apoointment_fk) VALUES ('${appointmentID}', '${studentID}', '${timeSlotID}', '${students_appointment_fk}','${timeSlot_apointment_fk}');`;
+
+    connection.query(sql_query,function(err,result){
+        if(err) throw err;
+        var statement = 'One record inserted';
+        res.header("Access-Control-Allow-Origin","*");
+        console.log(statement);
+    });
+    res.send(values);
+});
+
 module.exports = router;
+
+
