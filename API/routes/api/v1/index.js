@@ -42,6 +42,19 @@ app.get('/api/v1/students', async function (req, res, next) {
     });
 });
 
+// Getting all the timeslots data in the database 
+app.get('/api/v1/timeSlots', async function (req, res, next) {
+    const sql_query = `SELECT * FROM timeSlots;`;
+    connection.query(sql_query, (err, results) => {
+        if(err) throw err; 
+        var statement = `All timeSlots information returned`;
+        console.log(statement);
+        res.header("Access-Control-Allow-Origin", "*");
+        res.json(results);
+    });
+});
+
+
 // Getting all the clients data in the database 
 app.get('/api/v1/clients', async function (req, res, next) {
     const sql_query = `SELECT * FROM clients;`;
