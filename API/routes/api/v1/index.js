@@ -151,10 +151,10 @@ app.get('/api/v1/timeslots/findTimeslots/:timeSlotID', function(req, res) {
     const sql_query = `SELECT * FROM timeSlots WHERE timeSlotID = '${timeSlotID}';`;
 
     connection.query(sql_query, function(err, result){
+        res.header("Access-Control-Allow-Origin", "*");
         if(err) throw err;
         var statement = `Time slot record has been returned`;
         console.log(statement);
-        res.header("Access-Control-Allow-Origin", "*");
         res.json(result);
     });
 });
