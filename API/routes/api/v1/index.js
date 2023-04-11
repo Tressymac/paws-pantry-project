@@ -108,6 +108,7 @@ app.post('/api/v1/students/newStudents', function(req, res){
     connection.query(sql_query, function(err, result){
         if(err) throw err;
         var statement = `One record inserted`;
+        res.header("Access-Control-Allow-Origin", "*");
         console.log(statement);
     });
     res.send(values);
@@ -115,7 +116,7 @@ app.post('/api/v1/students/newStudents', function(req, res){
 
 // Finding clients by clients ID 
 app.get('/api/v1/clients/findclients/:clientID', function(req, res) {
-    var clientID=req.body.clientID;
+    var clientID=req.params.clientID;
 
     const sql_query = `SELECT * FROM clients WHERE clientID = '${clientID}';`;
 
@@ -123,13 +124,14 @@ app.get('/api/v1/clients/findclients/:clientID', function(req, res) {
         if(err) throw err;
         var statement = `One clients record returned`;
         console.log(statement);
+        res.header("Access-Control-Allow-Origin", "*");
         res.json(result);
     });
 });
 
-// Finding appointments by student ID 
+// Finding appointments by clientID
 app.get('/api/v1/appointments/findAppointments/:clientID', function(req, res) {
-    var clientID=req.body.clientID;
+    var clientID=req.params.clientID;
 
     const sql_query = `SELECT * FROM appointments WHERE clientID = '${clientID}';`;
 
@@ -137,6 +139,7 @@ app.get('/api/v1/appointments/findAppointments/:clientID', function(req, res) {
         if(err) throw err;
         var statement = `Appointments record returned`;
         console.log(statement);
+        res.header("Access-Control-Allow-Origin", "*");
         res.json(result);
     });
 });
@@ -151,6 +154,7 @@ app.get('/api/v1/timeslots/findTimeslots/:timeSlotID', function(req, res) {
         if(err) throw err;
         var statement = `Time slot record has been returned`;
         console.log(statement);
+        res.header("Access-Control-Allow-Origin", "*");
         res.json(result);
     });
 });
@@ -166,6 +170,7 @@ app.delete('/api/v1/students/delete/studentByID', function(req, res) {
         if(err) throw err;
         var statement = `Student "${studentID}" records has been removed`;
         console.log(statement);
+        res.header("Access-Control-Allow-Origin", "*");
         res.json(statement);
     });
 });
@@ -181,6 +186,7 @@ app.post('/api/v1/students/update/:studentByID', function(req, res) {
     connection.query(sql_query, function(err, result){
         if (err) throw err;
         var statement = `Student "${studentID}" records has been updated`;
+        res.header("Access-Control-Allow-Origin", "*");
         console.log(result.affectedRows + ": " + statement);
     });
 });
@@ -196,6 +202,7 @@ app.post('/api/v1/students/update/:studentByID', function(req, res) {
     connection.query(sql_query, function(err, result){
         if (err) throw err;
         var statement = `Student "${studentID}" records has been updated`;
+        res.header("Access-Control-Allow-Origin", "*");
         console.log(result.affectedRows + ": " + statement);
     });
 });
