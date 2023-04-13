@@ -144,27 +144,6 @@ app.post('/api/v1/students/newStudents', function(req, res){
 });
 
 // app.post('/api/v1/timeSlots/newTimeSlots', function(req, res){    
-//     var selectedDay = req.body.selectedDay;
-//     var time = req.body.time;
-//     var filled = false;
-
-//     var values = [
-//         [selectedDay, time, filled]
-//     ];
-
-//     console.log("This is the returned value: " + values);
-//     const sql_query = `INSERT INTO timeSlots (day, time, filled) VALUES ('${selectedDay}', '${time}', ${filled});`;
-//     connection.query(sql_query, function(err, result){
-//         if(err) throw err;
-//         var statement = `The new time info has been updated.`;
-//         console.log(statement);
-//     });
-//     res.header("Access-Control-Allow-Origin", "http://localhost:3001"); // Update the origin to match your front-end URL
-//     res.send(values);
-// });
-
-// // Inserting new time info into database 
-// app.post('/api/v1/timeSlots/newTimeSlots', function(req, res){    
 //     var day = req.body.day;
 //     var time = req.body.time;
 //     var filled = false;
@@ -278,8 +257,15 @@ app.post('/api/v1/students/update/:studentByID', function(req, res) {
     });
 });
 
+app.options('/api/v1/appointments/newAppointments', function(req, res) {
+    res.header('Access-Control-Allow-Origin', 'http://localhost:3001');
+    res.header('Access-Control-Allow-Methods', 'GET, POST');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    res.status(200).send();
+});
 
 // Post a new appt into the database
+// Also updates the time slot to filled 
 app.post('/api/v1/appointments/newAppointments',function(req,res){
     var clientID = req.body.clientID;
     var timeSlotID = req.body.timeSlotID;
@@ -291,13 +277,19 @@ app.post('/api/v1/appointments/newAppointments',function(req,res){
     console.log("This is the returned value: " + values);
    
     const sql_query = `INSERT INTO appointments (clientID, timeSlotID) VALUES ('${clientID}', '${timeSlotID}');`;
+    const secondSql_query = `UPDATE timeSlots SET filled = true WHERE timeSlotID = '${timeSlotID}';`;
 
-    connection.query(sql_query,function(err,result){
-        if(err) throw err;
+    connection.query(sql_query, function(err, result) {
+        if (err) throw err;
         var statement = 'One record inserted';
         console.log(statement);
-    });
-    res.send(values);
+        // Calling the second query here
+        connection.query(secondSql_query, function(err, result) {
+          if (err) throw err;
+          console.log('Time slot updated');
+        });
+      });
+      res.send(values);
 });
 
 module.exports = router;
