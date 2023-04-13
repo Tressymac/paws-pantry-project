@@ -24,6 +24,36 @@ app.listen(PORT, () => {
     })
 });
 
+app.options('/api/v1/timeSlots/newTimeSlots', function(req, res) {
+    res.header('Access-Control-Allow-Origin', 'http://localhost:3001');
+    res.header('Access-Control-Allow-Methods', 'GET, POST');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    res.status(200).send();
+});
+  
+
+//Post a new timeslot to the database
+app.post('/api/v1/timeSlots/newTimeSlots', function(req, res) {
+    var selectedDay = req.body.selectedDay;
+    var time = req.body.time;
+    var filled = false;
+  
+    var values = [
+      [selectedDay, time, filled]
+    ];
+  
+    console.log("This is the returned value: " + values);
+    const sql_query = `INSERT INTO timeSlots (day, time, filled) VALUES ('${selectedDay}', '${time}', ${filled});`;
+    connection.query(sql_query, function(err, result) {
+      if (err) throw err;
+      var statement = `The new time info has been updated.`;
+      console.log(statement);
+    });
+    res.header('Access-Control-Allow-Origin', 'http://localhost:3001');
+    res.send(values);
+});
+  
+
 // Root route
 app.get('/', (req, res) => {
     res.header("Access-Control-Allow-Origin", "*");
@@ -92,6 +122,7 @@ app.get('/api/v1/admin', async function (req, res, next) {
 
 // Inserting new student info into database 
 app.post('/api/v1/students/newStudents', function(req, res){    
+    res.header("Access-Control-Allow-Origin", "*");
     var studentID = req.body.studentID;
     var firstName = req.body.firstName;
     var lastName = req.body.lastName;
@@ -108,33 +139,51 @@ app.post('/api/v1/students/newStudents', function(req, res){
     connection.query(sql_query, function(err, result){
         if(err) throw err;
         var statement = `One record inserted`;
-        res.header("Access-Control-Allow-Origin", "*");
         console.log(statement);
     });
     res.send(values);
 });
 
-// Inserting new time info into database 
-app.post('/api/v1/timeSlots/newTimeSlots', function(req, res){    
-    var day = req.body.day;
-    var time = req.body.time;
-    var filled = false;
+// app.post('/api/v1/timeSlots/newTimeSlots', function(req, res){    
+//     var selectedDay = req.body.selectedDay;
+//     var time = req.body.time;
+//     var filled = false;
 
-    var values = [
-        [day, time, filled]
-    ];
+//     var values = [
+//         [selectedDay, time, filled]
+//     ];
 
-    console.log("This is the returned value: " + values);
+//     console.log("This is the returned value: " + values);
+//     const sql_query = `INSERT INTO timeSlots (day, time, filled) VALUES ('${selectedDay}', '${time}', ${filled});`;
+//     connection.query(sql_query, function(err, result){
+//         if(err) throw err;
+//         var statement = `The new time info has been updated.`;
+//         console.log(statement);
+//     });
+//     res.header("Access-Control-Allow-Origin", "http://localhost:3001"); // Update the origin to match your front-end URL
+//     res.send(values);
+// });
 
-    const sql_query = `INSERT INTO timeSlots (day, time, filled) VALUES ('${day}', '${time}', ${filled});`;
+// // Inserting new time info into database 
+// app.post('/api/v1/timeSlots/newTimeSlots', function(req, res){    
+//     var day = req.body.day;
+//     var time = req.body.time;
+//     var filled = false;
 
-    connection.query(sql_query, function(err, result){
-        if(err) throw err;
-        var statement = `The new time info has been updated.`;
-        console.log(statement);
-    });
-    res.send(values);
-});
+//     var values = [
+//         [day, time, filled]
+//     ];
+
+//     console.log("This is the returned value: " + values);
+//     const sql_query = `INSERT INTO timeSlots (day, time, filled) VALUES ('${day}', '${time}', ${filled});`;
+//     connection.query(sql_query, function(err, result){
+//         res.header("Access-Control-Allow-Origin", "*");
+//         if(err) throw err;
+//         var statement = `The new time info has been updated.`;
+//         console.log(statement);
+//     });
+//     res.send(values);
+// });
 
 
 // Finding clients by clients ID 
@@ -185,6 +234,7 @@ app.get('/api/v1/timeslots/findTimeslots/:timeSlotID', function(req, res) {
 // Deleting student schedule by student ID
 app.delete('/api/v1/students/delete/studentByID', function(req, res) {
     var studentID=req.body.studentID;
+    res.header("Access-Control-Allow-Origin", "*");
 
     const sql_query = `DELETE FROM students WHERE studentID = '${studentID}';`;
     console.log(sql_query);
@@ -193,7 +243,6 @@ app.delete('/api/v1/students/delete/studentByID', function(req, res) {
         if(err) throw err;
         var statement = `Student "${studentID}" records has been removed`;
         console.log(statement);
-        res.header("Access-Control-Allow-Origin", "*");
         res.json(statement);
     });
 });
@@ -230,5 +279,26 @@ app.post('/api/v1/students/update/:studentByID', function(req, res) {
     });
 });
 
+
+// Post a new appt into the database
+app.post('/api/v1/appointments/newAppointments',function(req,res){
+    var clientID = req.body.clientID;
+    var timeSlotID = req.body.timeSlotID;
+    res.header("Access-Control-Allow-Origin","*");
+
+    var values = [
+    [ clientID, timeSlotID]
+    ];
+    console.log("This is the returned value: " + values);
+   
+    const sql_query = `INSERT INTO appointments (clientID, timeSlotID) VALUES ('${clientID}', '${timeSlotID}');`;
+
+    connection.query(sql_query,function(err,result){
+        if(err) throw err;
+        var statement = 'One record inserted';
+        console.log(statement);
+    });
+    res.send(values);
+});
 
 module.exports = router;
