@@ -31,7 +31,6 @@ app.options('/api/v1/timeSlots/newTimeSlots', function(req, res) {
     res.status(200).send();
 });
   
-
 //Post a new timeslot to the database
 app.post('/api/v1/timeSlots/newTimeSlots', function(req, res) {
     var selectedDay = req.body.selectedDay;
