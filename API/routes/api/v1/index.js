@@ -327,14 +327,20 @@ app.options('/api/v1/appointments/clearAll', function(req, res) {
 // Call that will only clear all appointments when activated 
 app.delete("/api/v1/appointments/clearAll", function (req, res) {
     const secondSql_query = "DELETE FROM appointments";
-  
+    const Sql_query = "UPDATE timeSlots SET filled = false";
+    
     connection.query(secondSql_query, function(err, result) {
+      if (err) throw err;
+      console.log("All items have been deleted from the appointments table");
+  
+      connection.query(Sql_query, function(err, result) {
         if (err) throw err;
-        console.log("All items have been deleted from the appointments table");      
-        res.send("All items have been deleted");
+        console.log("All filled variables have been set to false in the timeSlots table");
+        res.send("All items have been deleted and all filled variables have been set to false");
+      });
     });
-
 });
+  
   
 
 module.exports = router;
