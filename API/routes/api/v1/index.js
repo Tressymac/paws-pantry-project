@@ -292,4 +292,30 @@ app.post('/api/v1/appointments/newAppointments',function(req,res){
       res.send(values);
 });
 
+app.options('/api/v1/timeSlot/clearAll', function(req, res) {
+    res.header('Access-Control-Allow-Origin', 'http://localhost:3001');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, DELETE');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    res.status(200).send();
+});
+
+// Call that will clear all timeslots and appts when activated 
+app.delete("/api/v1/timeSlot/clearAll", function (req, res) {
+    const sql_query = "DELETE FROM timeSlots";
+    const secondSql_query = "DELETE FROM appointments";
+  
+    connection.query(secondSql_query, function(err, result) {
+        if (err) throw err;
+        console.log('Appointments Table has been cleared');
+        // Calling the second query here
+        connection.query(sql_query, function (err, result) {
+            if (err) throw err;
+        });
+        console.log("All items have been deleted from the timeSlots table");      
+        res.send("All items have been deleted");
+    });
+
+  });
+  
+
 module.exports = router;
