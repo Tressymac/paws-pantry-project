@@ -235,6 +235,41 @@ app.get('/api/v1/timeslots/findTimeslots/:timeSlotID', function(req, res) {
     });
 });
 
+// Deleting timeslot schedule by timeslot ID
+app.options('/api/v1/timeslot/delete/:timeSlotID', function(req, res) {
+    res.header('Access-Control-Allow-Origin', 'http://localhost:3001');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, DELETE');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    res.status(200).send();
+});
+
+app.delete('/api/v1/timeslot/delete/:timeSlotID', function(req, res) {
+    var timeSlotID = req.params.timeSlotID;
+    res.header("Access-Control-Allow-Origin", "*");
+
+    const secondSql_query = `DELETE FROM appointments WHERE timeSlotID = '${timeSlotID}';`;
+    const sql_query = `DELETE FROM timeSlots WHERE timeSlotID = '${timeSlotID}';`;
+    console.log(sql_query);
+
+    connection.query(secondSql_query, function(err, result){
+        if(err) throw err;
+        var statement = `Appointments with Timeslot ID of "${timeSlotID}" has been removed`;
+        connection.query(sql_query, function(err, result){
+            if(err) throw err;
+            var statement = `Timeslot "${timeSlotID}" records has been removed`;
+            console.log(statement);
+        });
+        console.log(statement);
+        res.send(statement);
+    });
+    // connection.query(sql_query, function(err, result){
+    //     if(err) throw err;
+    //     var statement = `Timeslot "${timeSlotID}" records has been removed`;
+    //     console.log(statement);
+    //     res.json(statement);
+    // });
+});
+
 // Deleting appointments schedule by appointment ID
 app.options('/api/v1/appointments/delete/:appointmentID', function(req, res) {
     res.header('Access-Control-Allow-Origin', 'http://localhost:3001');
