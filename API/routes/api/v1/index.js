@@ -209,17 +209,40 @@ app.get('/api/v1/timeslots/findTimeslots/:timeSlotID', function(req, res) {
     });
 });
 
-// Deleting student schedule by student ID
-app.delete('/api/v1/students/delete/studentByID', function(req, res) {
-    var studentID=req.body.studentID;
+// Deleting appointments schedule by appointment ID
+app.options('/api/v1/appointments/delete/appointmentID', function(req, res) {
+    res.header('Access-Control-Allow-Origin', 'http://localhost:3001');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, DELETE');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    res.status(200).send();
+});
+
+app.delete('/api/v1/appointments/delete/appointmentID', function(req, res) {
+    var appointmentID=req.body.appointmentID;
     res.header("Access-Control-Allow-Origin", "*");
 
-    const sql_query = `DELETE FROM students WHERE studentID = '${studentID}';`;
+    const sql_query = `DELETE FROM appointments WHERE appointmentID = '${appointmentID}';`;
     console.log(sql_query);
 
     connection.query(sql_query, function(err, result){
         if(err) throw err;
-        var statement = `Student "${studentID}" records has been removed`;
+        var statement = `Appointments "${appointmentID}" records has been removed`;
+        console.log(statement);
+        res.json(statement);
+    });
+});
+
+// Deleting clients schedule by client ID
+app.delete('/api/v1/clients/delete/clientByID', function(req, res) {
+    var clientID=req.body.clientByID;
+    res.header("Access-Control-Allow-Origin", "*");
+
+    const sql_query = `DELETE FROM clients WHERE clientID = '${clientID}';`;
+    console.log(sql_query);
+
+    connection.query(sql_query, function(err, result){
+        if(err) throw err;
+        var statement = `Client "${clientID}" records has been removed`;
         console.log(statement);
         res.json(statement);
     });
