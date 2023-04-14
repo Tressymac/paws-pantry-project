@@ -24,6 +24,32 @@ app.listen(PORT, () => {
     })
 });
 
+app.options('/api/v1/timeslot/update/:timeSlotID', function(req, res) {
+    res.header('Access-Control-Allow-Origin', 'http://localhost:3001');
+    res.header('Access-Control-Allow-Methods', 'GET, POST');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    res.status(200).send();
+});
+
+// Updating all timeslot name by timeslot ID 
+app.post('/api/v1/timeslot/update/:timeSlotID', function(req, res) {
+    var timeSlotID = req.body.timeSlotID;
+    var day = req.body.day;
+    var time = req.body.time;
+    var filled = req.body.filled;
+
+    const sql_query = `UPDATE timeSlots SET day = '${day}', time = '${time}', filled = ${filled} WHERE timeSlotID = '${timeSlotID}';`;
+    console.log(sql_query);
+
+    connection.query(sql_query, function(err, result){
+        if (err) throw err;
+        var statement = `timeslot "${timeSlotID}" records has been updated`;
+        res.header("Access-Control-Allow-Origin", "*");
+        console.log(result.affectedRows + ": " + statement);
+    });
+});
+
+
 app.options('/api/v1/timeSlots/newTimeSlots', function(req, res) {
     res.header('Access-Control-Allow-Origin', 'http://localhost:3001');
     res.header('Access-Control-Allow-Methods', 'GET, POST');
