@@ -210,15 +210,15 @@ app.get('/api/v1/timeslots/findTimeslots/:timeSlotID', function(req, res) {
 });
 
 // Deleting appointments schedule by appointment ID
-app.options('/api/v1/appointments/delete/appointmentID', function(req, res) {
+app.options('/api/v1/appointments/delete/:appointmentID', function(req, res) {
     res.header('Access-Control-Allow-Origin', 'http://localhost:3001');
     res.header('Access-Control-Allow-Methods', 'GET, POST, DELETE');
     res.header('Access-Control-Allow-Headers', 'Content-Type');
     res.status(200).send();
 });
 
-app.delete('/api/v1/appointments/delete/appointmentID', function(req, res) {
-    var appointmentID=req.body.appointmentID;
+app.delete('/api/v1/appointments/delete/:appointmentID', function(req, res) {
+    var appointmentID=req.params.appointmentID;
     res.header("Access-Control-Allow-Origin", "*");
 
     const sql_query = `DELETE FROM appointments WHERE appointmentID = '${appointmentID}';`;
