@@ -315,7 +315,26 @@ app.delete("/api/v1/timeSlot/clearAll", function (req, res) {
         res.send("All items have been deleted");
     });
 
-  });
+});
+
+app.options('/api/v1/appointments/clearAll', function(req, res) {
+    res.header('Access-Control-Allow-Origin', 'http://localhost:3001');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, DELETE');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    res.status(200).send();
+});
+
+// Call that will only clear all appointments when activated 
+app.delete("/api/v1/appointments/clearAll", function (req, res) {
+    const secondSql_query = "DELETE FROM appointments";
+  
+    connection.query(secondSql_query, function(err, result) {
+        if (err) throw err;
+        console.log("All items have been deleted from the appointments table");      
+        res.send("All items have been deleted");
+    });
+
+});
   
 
 module.exports = router;
