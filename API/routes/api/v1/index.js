@@ -162,7 +162,6 @@ app.options('/api/v1/clients/newclients', function(req, res) {
 
 // Inserting new clients info into database 
 app.post('/api/v1/clients/newclients', function(req, res){    
-    res.header("Access-Control-Allow-Origin", "*");
     var clientID = req.body.clientID;
     var firstName = req.body.firstName;
     var lastName = req.body.lastName;
@@ -185,7 +184,7 @@ app.post('/api/v1/clients/newclients', function(req, res){
 
     console.log("This is the returned value: " + values);
 
-    const sql_query = `INSERT INTO students (clientID, firstName, lastName, email, standing, street_address, Address_line_2, city, zip_code, state, county, numAdults, numChildren05, numChildren618, employment) VALUES ('${clientID}', '${firstName}', '${lastName}', '${email}', '${standing}', '${street_address}', '${Address_line_2}', '${city}', '${zip_code}', '${state}', '${county}', '${numAdults}', '${numChildren05}', '${numChildren618}', '${employment}');`;
+    const sql_query = `INSERT INTO clients (clientID, firstName, lastName, email, standing, street_address, Address_line_2, city, zip_code, state, county, numAdults, numChildren05, numChildren618, employment) VALUES ('${clientID}', '${firstName}', '${lastName}', '${email}', '${standing}', '${street_address}', '${Address_line_2}', '${city}', '${zip_code}', '${state}', '${county}', '${numAdults}', '${numChildren05}', '${numChildren618}', '${employment}');`;
 
     connection.query(sql_query, function(err, result){
         if(err) throw err;
