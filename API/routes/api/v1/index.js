@@ -93,7 +93,7 @@ app.get('/', (req, res) => {
     res.send('Root API route');
 });
 
-// Getting all the student data in the database 
+// Getting all the client data in the database 
 app.get('/api/v1/clients', async function (req, res, next) {
     const sql_query = `SELECT * FROM clients;`;
     connection.query(sql_query, (err, results) => {
@@ -153,25 +153,36 @@ app.get('/api/v1/admin', async function (req, res, next) {
     });
 });
 
-// Inserting new student info into database 
-app.post('/api/v1/students/newStudents', function(req, res){    
+// Inserting new clients info into database 
+app.post('/api/v1/clients/newclients', function(req, res){    
     res.header("Access-Control-Allow-Origin", "*");
-    var studentID = req.body.studentID;
+    var clientID = req.body.clientID;
     var firstName = req.body.firstName;
     var lastName = req.body.lastName;
     var email = req.body.email;
+    var standing = req.body.standing;
+    var street_address = req.body.street_address;
+    var Address_line_2 = req.body.Address_line_2;
+    var city = req.body.city;
+    var zip_code = req.body.zip_code;
+    var state = req.body.state;
+    var county = req.body.county;
+    var numAdults = req.body.numAdults;
+    var numChildren05 = req.body.numChildren05
+    var numChildren618 = req.body.numChildren618;
+    var employment = req.body.employment;
 
     var values = [
-        [studentID, firstName, lastName, email]
+        [clientID, firstName, lastName, email]
     ];
 
     console.log("This is the returned value: " + values);
 
-    const sql_query = `INSERT INTO students (studentID, firstName, lastName, email) VALUES ('${studentID}', '${firstName}', '${lastName}', '${email}');`;
+    const sql_query = `INSERT INTO students (clientID, firstName, lastName, email, standing, street_address, Address_line_2, city, zip_code, state, county, numAdults, numChildren05, numChildren618, employment) VALUES ('${clientID}', '${firstName}', '${lastName}', '${email}', '${standing}', '${street_address}', '${Address_line_2}', '${city}', '${zip_code}', '${state}', '${county}', '${numAdults}', '${numChildren05}', '${numChildren618}', '${employment}');`;
 
     connection.query(sql_query, function(err, result){
         if(err) throw err;
-        var statement = `One record inserted`;
+        var statement = `One New Client record inserted`;
         console.log(statement);
     });
     res.send(values);
