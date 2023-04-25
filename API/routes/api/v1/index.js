@@ -35,7 +35,7 @@ app.listen(PORT, () => {
 });
 
 app.options('/api/v1/timeslot/update/:timeSlotID', function(req, res) {
-    res.header('Access-Control-Allow-Origin', 'http://localhost:3001');
+    res.header('Access-Control-Allow-Origin', req.headers.origin);
     res.header('Access-Control-Allow-Methods', 'GET, POST');
     res.header('Access-Control-Allow-Headers', 'Content-Type');
     res.status(200).send();
@@ -43,6 +43,9 @@ app.options('/api/v1/timeslot/update/:timeSlotID', function(req, res) {
 
 // Updating all timeslot name by timeslot ID 
 app.post('/api/v1/timeslot/update/:timeSlotID', function(req, res) {
+    res.header('Access-Control-Allow-Origin', req.headers.origin);
+    res.header('Access-Control-Allow-Methods', 'GET, POST');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
     var timeSlotID = req.body.timeSlotID;
     var day = req.body.day;
     var time = req.body.time;
@@ -54,13 +57,13 @@ app.post('/api/v1/timeslot/update/:timeSlotID', function(req, res) {
     connection.query(sql_query, function(err, result){
         if (err) throw err;
         var statement = `timeslot "${timeSlotID}" records has been updated`;
-        res.header("Access-Control-Allow-Origin", "*");
         console.log(result.affectedRows + ": " + statement);
     });
 });
 
 app.options('/api/v1/timeSlots/newTimeSlots', function(req, res) {
-    res.header('Access-Control-Allow-Origin', 'http://localhost:3001');
+    // res.header('Access-Control-Allow-Origin', 'http://localhost:3001');
+    res.header('Access-Control-Allow-Origin', req.headers.origin);
     res.header('Access-Control-Allow-Methods', 'GET, POST');
     res.header('Access-Control-Allow-Headers', 'Content-Type');
     res.status(200).send();
@@ -83,7 +86,8 @@ app.post('/api/v1/timeSlots/newTimeSlots', function(req, res) {
       var statement = `The new time info has been updated.`;
       console.log(statement);
     });
-    res.header('Access-Control-Allow-Origin', 'http://localhost:3001');
+    // res.header('Access-Control-Allow-Origin', 'http://localhost:3001');
+    res.header('Access-Control-Allow-Origin', req.headers.origin);
     res.send(values);
 });
   
@@ -154,7 +158,8 @@ app.get('/api/v1/admin', async function (req, res, next) {
 });
 
 app.options('/api/v1/clients/newclients', function(req, res) {
-    res.header('Access-Control-Allow-Origin', 'http://localhost:3001');
+    // res.header('Access-Control-Allow-Origin', 'http://localhost:3001');
+    res.header('Access-Control-Allow-Origin', req.headers.origin);
     res.header('Access-Control-Allow-Methods', 'GET, POST');
     res.header('Access-Control-Allow-Headers', 'Content-Type');
     res.status(200).send();
@@ -194,9 +199,16 @@ app.post('/api/v1/clients/newclients', function(req, res){
     res.send(values);
 });
 
-
+app.options('/api/v1/clients/:clientID/:firstName', function(req, res) {
+    // res.header('Access-Control-Allow-Origin', 'http://localhost:3001');
+    res.header('Access-Control-Allow-Origin', req.headers.origin);
+    res.header('Access-Control-Allow-Methods', 'GET, POST');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    res.status(200).send();
+});
 // finding clients by client id and first name
 app.get('/api/v1/clients/:clientID/:firstName', (req, res) => {
+    res.header("Access-Control-Allow-Origin", "*");
     const { clientID, firstName } = req.params;
     const sql_query = `SELECT * FROM clients WHERE clientID = '${clientID}' AND firstName = '${firstName}';`;
     connection.query(sql_query, function(err, result){
@@ -205,8 +217,6 @@ app.get('/api/v1/clients/:clientID/:firstName', (req, res) => {
         console.log(statement);
         res.json(result);
     });
-    // Query the database for client info based on the id and firstName parameters
-    // Return the client info as a response
 });
 
 // app.post('/api/v1/timeSlots/newTimeSlots', function(req, res){    
@@ -277,7 +287,8 @@ app.get('/api/v1/timeslots/findTimeslots/:timeSlotID', function(req, res) {
 
 // Deleting timeslot schedule by timeslot ID
 app.options('/api/v1/timeslot/delete/:timeSlotID', function(req, res) {
-    res.header('Access-Control-Allow-Origin', 'http://localhost:3001');
+    // res.header('Access-Control-Allow-Origin', 'http://localhost:3001');
+    res.header('Access-Control-Allow-Origin', req.headers.origin);
     res.header('Access-Control-Allow-Methods', 'GET, POST, DELETE');
     res.header('Access-Control-Allow-Headers', 'Content-Type');
     res.status(200).send();
@@ -306,7 +317,8 @@ app.delete('/api/v1/timeslot/delete/:timeSlotID', function(req, res) {
 
 // Deleting appointments schedule by appointment ID
 app.options('/api/v1/appointments/delete/:appointmentID', function(req, res) {
-    res.header('Access-Control-Allow-Origin', 'http://localhost:3001');
+    // res.header('Access-Control-Allow-Origin', 'http://localhost:3001');
+    res.header('Access-Control-Allow-Origin', req.headers.origin);
     res.header('Access-Control-Allow-Methods', 'GET, POST, DELETE');
     res.header('Access-Control-Allow-Headers', 'Content-Type');
     res.status(200).send();
@@ -376,7 +388,8 @@ app.post('/api/v1/students/update/:studentByID', function(req, res) {
 });
 
 app.options('/api/v1/appointments/newAppointments', function(req, res) {
-    res.header('Access-Control-Allow-Origin', 'http://localhost:3001');
+    // res.header('Access-Control-Allow-Origin', 'http://localhost:3001');
+    res.header('Access-Control-Allow-Origin', req.headers.origin);
     res.header('Access-Control-Allow-Methods', 'GET, POST');
     res.header('Access-Control-Allow-Headers', 'Content-Type');
     res.status(200).send();
@@ -410,8 +423,30 @@ app.post('/api/v1/appointments/newAppointments',function(req,res){
       res.send(values);
 });
 
+app.options('/api/v1/timeslots/:day', function(req, res) {
+    // res.header('Access-Control-Allow-Origin', 'http://localhost:3001');
+    res.header('Access-Control-Allow-Origin', req.headers.origin);
+    res.header('Access-Control-Allow-Methods', 'GET, POST');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    res.status(200).send();
+});
+
+// Get all timeslots by the day and id
+app.get('/api/v1/timeslots/:day', (req, res) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    const { day } = req.params;
+    const sql_query = `SELECT * FROM timeSlots WHERE day = '${day}';`;
+    connection.query(sql_query, function(err, result){
+        if(err) throw err;
+        var statement = `Timeslot record returned`;
+        console.log(statement);
+        res.json(result);
+    });
+});
+
 app.options('/api/v1/timeSlot/clearAll', function(req, res) {
-    res.header('Access-Control-Allow-Origin', 'http://localhost:3001');
+    // res.header('Access-Control-Allow-Origin', 'http://localhost:3001');
+    res.header('Access-Control-Allow-Origin', req.headers.origin);
     res.header('Access-Control-Allow-Methods', 'GET, POST, DELETE');
     res.header('Access-Control-Allow-Headers', 'Content-Type');
     res.status(200).send();
@@ -436,7 +471,8 @@ app.delete("/api/v1/timeSlot/clearAll", function (req, res) {
 });
 
 app.options('/api/v1/appointments/clearAll', function(req, res) {
-    res.header('Access-Control-Allow-Origin', 'http://localhost:3001');
+    // res.header('Access-Control-Allow-Origin', 'http://localhost:3001');
+    res.header('Access-Control-Allow-Origin', req.headers.origin);
     res.header('Access-Control-Allow-Methods', 'GET, POST, DELETE');
     res.header('Access-Control-Allow-Headers', 'Content-Type');
     res.status(200).send();
