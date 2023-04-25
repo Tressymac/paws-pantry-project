@@ -194,6 +194,21 @@ app.post('/api/v1/clients/newclients', function(req, res){
     res.send(values);
 });
 
+
+// finding clients by client id and first name
+app.get('/api/v1/clients/:clientID/:firstName', (req, res) => {
+    const { clientID, firstName } = req.params;
+    const sql_query = `SELECT * FROM clients WHERE clientID = '${clientID}' AND firstName = '${firstName}';`;
+    connection.query(sql_query, function(err, result){
+        if(err) throw err;
+        var statement = `One New Client record returned`;
+        console.log(statement);
+        res.json(result);
+    });
+    // Query the database for client info based on the id and firstName parameters
+    // Return the client info as a response
+});
+
 // app.post('/api/v1/timeSlots/newTimeSlots', function(req, res){    
 //     var day = req.body.day;
 //     var time = req.body.time;
