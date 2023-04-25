@@ -1,4 +1,12 @@
-hostName =
-databaseName =
-databaseUser =
-databasePassword = 
+// hostName =
+// databaseName =
+// databaseUser =
+// databasePassword = 
+
+
+// DB_HOSTNAME=paws-pantry-data.mysql.database.azure.com
+// DB_USERNAME=paws1pantry1dataset
+// DB_PASSWORD={your-password}
+// DB_SSL_MODE=require
+// DB_SSL_CA=D:\users\jessy\Desktops\Desktop_folder\club\DigiCertGlobalRootCA.crt.pem
+// Be sure to download ssl from paws-pantry-data -> settings -> Networking

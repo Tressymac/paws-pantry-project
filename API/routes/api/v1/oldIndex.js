@@ -1,37 +1,27 @@
 const express = require('express');
 const router = express.Router();
-const mysql = require('mysql2');
-const sql = require('mssql');
+const mysql2 = require('mysql2');
 const env = process.env.NODE_ENV;
 const app = express();
 var bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
-const connection = mysql.createConnection({
-    host: process.env.DB_HOSTNAME,
-    user: process.env.DB_USERNAME,
-    password: process.env.DB_PASSWORD,
-    database: 'pantry-data',
-    ssl: {
-        ca: process.env.DB_SSL_CA, // path to the CA certificate file
-        rejectUnauthorized: false
-    }
+const connection = mysql2.createConnection({
+    host: 'localhost',
+    database: process.env.databaseName, 
+    user: process.env.databaseUser, 
+    password: process.env.databasePassword
 });
 
 const PORT = 8000; 
-
-connection.connect(function(err) {
-    if (err) {
-        console.error('Error connecting to database:', err);
-        return;
-    }
-    console.log('Connected to database!');
-});
-
 app.listen(PORT, () => {
     console.log(`Server : http://localhost:${PORT}`);
     console.log(process.env.hostName);
+    connection.connect((err) => {
+        if(err) throw err; 
+        console.log("The database is connected");
+    })
 });
 
 app.options('/api/v1/timeslot/update/:timeSlotID', function(req, res) {
@@ -96,11 +86,11 @@ app.get('/', (req, res) => {
 });
 
 // Getting all the student data in the database 
-app.get('/api/v1/clients', async function (req, res, next) {
-    const sql_query = `SELECT * FROM clients;`;
+app.get('/api/v1/students', async function (req, res, next) {
+    const sql_query = `SELECT * FROM students;`;
     connection.query(sql_query, (err, results) => {
         if(err) throw err; 
-        var statement = `All clients information returned`;
+        var statement = `All student information returned`;
         console.log(statement);
         res.header("Access-Control-Allow-Origin", "*");
         res.json(results);
@@ -272,6 +262,12 @@ app.delete('/api/v1/timeslot/delete/:timeSlotID', function(req, res) {
         console.log(statement);
         res.send(statement);
     });
+    // connection.query(sql_query, function(err, result){
+    //     if(err) throw err;
+    //     var statement = `Timeslot "${timeSlotID}" records has been removed`;
+    //     console.log(statement);
+    //     res.json(statement);
+    // });
 });
 
 // Deleting appointments schedule by appointment ID
