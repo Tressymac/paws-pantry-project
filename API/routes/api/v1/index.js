@@ -153,6 +153,13 @@ app.get('/api/v1/admin', async function (req, res, next) {
     });
 });
 
+app.options('/api/v1/clients/newclients', function(req, res) {
+    res.header('Access-Control-Allow-Origin', 'http://localhost:3001');
+    res.header('Access-Control-Allow-Methods', 'GET, POST');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    res.status(200).send();
+});
+
 // Inserting new clients info into database 
 app.post('/api/v1/clients/newclients', function(req, res){    
     res.header("Access-Control-Allow-Origin", "*");
