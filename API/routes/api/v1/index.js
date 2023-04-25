@@ -59,7 +59,6 @@ app.post('/api/v1/timeslot/update/:timeSlotID', function(req, res) {
     });
 });
 
-
 app.options('/api/v1/timeSlots/newTimeSlots', function(req, res) {
     res.header('Access-Control-Allow-Origin', 'http://localhost:3001');
     res.header('Access-Control-Allow-Methods', 'GET, POST');
@@ -88,7 +87,6 @@ app.post('/api/v1/timeSlots/newTimeSlots', function(req, res) {
     res.send(values);
 });
   
-
 // Root route
 app.get('/', (req, res) => {
     res.header("Access-Control-Allow-Origin", "*");
