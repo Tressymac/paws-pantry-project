@@ -99,12 +99,14 @@ app.get('/', (req, res) => {
 
 // Getting all the client data in the database 
 app.get('/api/v1/clients', async function (req, res, next) {
+    res.header('Access-Control-Allow-Origin', req.headers.origin);
+    res.header('Access-Control-Allow-Methods', 'GET, POST');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
     const sql_query = `SELECT * FROM clients;`;
     connection.query(sql_query, (err, results) => {
         if(err) throw err; 
         var statement = `All clients information returned`;
         console.log(statement);
-        res.header("Access-Control-Allow-Origin", "*");
         res.json(results);
     });
 });
@@ -166,7 +168,10 @@ app.options('/api/v1/clients/newclients', function(req, res) {
 });
 
 // Inserting new clients info into database 
-app.post('/api/v1/clients/newclients', function(req, res){    
+app.post('/api/v1/clients/newclients', function(req, res){  
+    res.header('Access-Control-Allow-Origin', req.headers.origin);
+    res.header('Access-Control-Allow-Methods', 'GET, POST');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');  
     var clientID = req.body.clientID;
     var firstName = req.body.firstName;
     var lastName = req.body.lastName;
@@ -201,14 +206,17 @@ app.post('/api/v1/clients/newclients', function(req, res){
 
 app.options('/api/v1/clients/:clientID/:firstName', function(req, res) {
     // res.header('Access-Control-Allow-Origin', 'http://localhost:3001');
-    res.header('Access-Control-Allow-Origin', req.headers.origin);
+    // res.header('Access-Control-Allow-Origin', req.headers.origin);
+    res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', 'GET, POST');
     res.header('Access-Control-Allow-Headers', 'Content-Type');
     res.status(200).send();
 });
 // finding clients by client id and first name
 app.get('/api/v1/clients/:clientID/:firstName', (req, res) => {
-    res.header("Access-Control-Allow-Origin", "*");
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET, POST');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');    
     const { clientID, firstName } = req.params;
     const sql_query = `SELECT * FROM clients WHERE clientID = '${clientID}' AND firstName = '${firstName}';`;
     connection.query(sql_query, function(err, result){
@@ -242,23 +250,27 @@ app.get('/api/v1/clients/:clientID/:firstName', (req, res) => {
 
 // Finding clients by clients ID 
 app.get('/api/v1/clients/findclients/:clientID', function(req, res) {
+    res.header('Access-Control-Allow-Origin', req.headers.origin);
+    res.header('Access-Control-Allow-Methods', 'GET, POST');
+    res.header('Access-Control-Allow-Headers', 'Content-Type'); 
     var clientID=req.params.clientID;
-
+    console.log(clientID)
     const sql_query = `SELECT * FROM clients WHERE clientID = '${clientID}';`;
 
     connection.query(sql_query, function(err, result){
         if(err) throw err;
         var statement = `One clients record returned`;
         console.log(statement);
-        res.header("Access-Control-Allow-Origin", "*");
         res.json(result);
     });
 });
 
 // Finding appointments by clientID
 app.get('/api/v1/appointments/findAppointments/:clientID', function(req, res) {
+    res.header('Access-Control-Allow-Origin', req.headers.origin);
+    res.header('Access-Control-Allow-Methods', 'GET, POST');
+    res.header('Access-Control-Allow-Headers', 'Content-Type'); 
     var clientID=req.params.clientID;
-
     const sql_query = `SELECT * FROM appointments WHERE clientID = '${clientID}';`;
 
     connection.query(sql_query, function(err, result){
@@ -272,6 +284,9 @@ app.get('/api/v1/appointments/findAppointments/:clientID', function(req, res) {
 
 // Finding timeslots by timeslot ID 
 app.get('/api/v1/timeslots/findTimeslots/:timeSlotID', function(req, res) {
+    res.header('Access-Control-Allow-Origin', req.headers.origin);
+    res.header('Access-Control-Allow-Methods', 'GET, POST');
+    res.header('Access-Control-Allow-Headers', 'Content-Type'); 
     var timeSlotID = req.params.timeSlotID;
 
     const sql_query = `SELECT * FROM timeSlots WHERE timeSlotID = '${timeSlotID}';`;
