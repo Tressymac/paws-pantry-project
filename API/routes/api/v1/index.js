@@ -7,6 +7,10 @@ const app = express();
 var bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
+const cors = require('cors');
+
+// Set up CORS middleware
+app.use(cors());
 
 const connection = mysql.createConnection({
     host: process.env.DB_HOSTNAME,
@@ -218,6 +222,7 @@ app.get('/api/v1/clients/:clientID/:firstName', (req, res) => {
     res.header('Access-Control-Allow-Methods', 'GET, POST');
     res.header('Access-Control-Allow-Headers', 'Content-Type');    
     const { clientID, firstName } = req.params;
+    console.log(clientID, firstName)
     const sql_query = `SELECT * FROM clients WHERE clientID = '${clientID}' AND firstName = '${firstName}';`;
     connection.query(sql_query, function(err, result){
         if(err) throw err;
@@ -249,7 +254,7 @@ app.get('/api/v1/clients/:clientID/:firstName', (req, res) => {
 
 
 // Finding clients by clients ID 
-app.get('/api/v1/clients/findclients/:clientID', function(req, res) {
+app.get('/api/v1/clients/search/findclients/:clientID', function(req, res) {
     res.header('Access-Control-Allow-Origin', req.headers.origin);
     res.header('Access-Control-Allow-Methods', 'GET, POST');
     res.header('Access-Control-Allow-Headers', 'Content-Type'); 
@@ -366,10 +371,19 @@ app.delete('/api/v1/appointments/delete/:appointmentID/:timeSlotID', function(re
 
 });
 
+app.options('/api/v1/clients/delete/:clientID', function(req, res) {
+    res.header('Access-Control-Allow-Origin', req.headers.origin);
+    res.header('Access-Control-Allow-Methods', 'GET, POST, DELETE');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    res.status(200).send();
+});
+
 // Deleting clients schedule by client ID
-app.delete('/api/v1/clients/delete/clientByID', function(req, res) {
-    var clientID=req.body.clientByID;
-    res.header("Access-Control-Allow-Origin", "*");
+app.delete('/api/v1/clients/delete/:clientID', function(req, res) {
+    res.header('Access-Control-Allow-Origin', req.headers.origin);
+    res.header('Access-Control-Allow-Methods', 'GET, POST, DELETE');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    var clientID=req.params.clientID;
 
     const sql_query = `DELETE FROM clients WHERE clientID = '${clientID}';`;
     console.log(sql_query);
