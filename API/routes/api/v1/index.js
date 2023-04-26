@@ -331,7 +331,7 @@ app.delete('/api/v1/timeslot/delete/:timeSlotID', function(req, res) {
 });
 
 // Deleting appointments schedule by appointment ID
-app.options('/api/v1/appointments/delete/:appointmentID', function(req, res) {
+app.options('/api/v1/appointments/delete/:appointmentID/:timeSlotID', function(req, res) {
     // res.header('Access-Control-Allow-Origin', 'http://localhost:3001');
     res.header('Access-Control-Allow-Origin', req.headers.origin);
     res.header('Access-Control-Allow-Methods', 'GET, POST, DELETE');
@@ -339,19 +339,31 @@ app.options('/api/v1/appointments/delete/:appointmentID', function(req, res) {
     res.status(200).send();
 });
 
-app.delete('/api/v1/appointments/delete/:appointmentID', function(req, res) {
-    var appointmentID=req.params.appointmentID;
+app.delete('/api/v1/appointments/delete/:appointmentID/:timeSlotID', function(req, res) {
     res.header("Access-Control-Allow-Origin", "*");
+    var appointmentID=req.params.appointmentID;
+    var timeSlotID = req.params.timeSlotID;
 
+    var values = [
+    [ appointmentID, timeSlotID]
+    ];   
+
+    const secondSql_query = `UPDATE timeSlots SET filled = false WHERE timeSlotID = '${timeSlotID}';`;
     const sql_query = `DELETE FROM appointments WHERE appointmentID = '${appointmentID}';`;
-    console.log(sql_query);
 
-    connection.query(sql_query, function(err, result){
-        if(err) throw err;
-        var statement = `Appointments "${appointmentID}" records has been removed`;
+    connection.query(sql_query, function(err, result) {
+        if (err) throw err;
+        var statement = `Appointments "${appointmentID}" with timeslotID of ${timeSlotID} has been removed `;
         console.log(statement);
-        res.json(statement);
-    });
+        // Calling the second query here
+        connection.query(secondSql_query, function(err, result) {
+          if (err) throw err;
+          console.log('Time slot updated');
+        });
+      });
+      res.send(values);
+
+
 });
 
 // Deleting clients schedule by client ID
